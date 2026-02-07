@@ -1,4 +1,5 @@
 worktrees/
-LearningPath/02-Functions/functions.zip
-
 *.zip
+LearningPath/02-Functions/ConferenceHub.Functions/bin/
+LearningPath/02-Functions/ConferenceHub.Functions/obj/
+LearningPath/02-Functions/ConferenceHub.Functions/publish/
