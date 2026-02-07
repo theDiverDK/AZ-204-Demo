@@ -59,3 +59,11 @@ entra_demo_organizer_display_name="ConferenceHub Organizer"
 entra_demo_organizer_alias="organizer"
 entra_demo_organizer_password="Az204Demo!123"
 container_lp6_image_tag="lp06"
+
+# LP7 Key Vault variables
+key_vault_name="kv-conferencehub-${random}"
+key_vault_sku="standard"
+kv_secret_azuread_client_secret_name="azuread-client-secret"
+kv_secret_cosmos_key_name="cosmos-key"
+kv_secret_slides_connection_string_name="slides-storage-connection-string"
+kv_secret_functions_key_name="functions-key"
