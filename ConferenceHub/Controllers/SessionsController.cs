@@ -15,18 +15,21 @@ namespace ConferenceHub.Controllers
         private readonly IDataService _dataService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly AzureFunctionsConfig _functionsConfig;
+        private readonly IEventTelemetryService _eventTelemetryService;
         private readonly string _apiMode;
         private readonly string _functionsBaseUrl;
         private readonly ILogger<SessionsController> _logger;
 
         public SessionsController(
             IDataService dataService,
+            IEventTelemetryService eventTelemetryService,
             IHttpClientFactory httpClientFactory,
             IOptions<AzureFunctionsConfig> functionsConfig,
             IConfiguration configuration,
             ILogger<SessionsController> logger)
         {
             _dataService = dataService;
+            _eventTelemetryService = eventTelemetryService;
             _httpClientFactory = httpClientFactory;
             _functionsConfig = functionsConfig.Value;
             _apiMode = (configuration["API_MODE"] ?? "none").Trim().ToLowerInvariant();
@@ -38,6 +41,11 @@ namespace ConferenceHub.Controllers
         public async Task<IActionResult> Index()
         {
             var sessions = await _dataService.GetSessionsAsync();
+            await _eventTelemetryService.TrackAsync("sessions.list.viewed", new
+            {
+                totalSessions = sessions.Count,
+                user = User.Identity?.Name
+            });
             return View(sessions);
         }
 
@@ -49,6 +57,13 @@ namespace ConferenceHub.Controllers
             {
                 return NotFound();
             }
+
+            await _eventTelemetryService.TrackAsync("session.details.viewed", new
+            {
+                sessionId = session.Id,
+                sessionTitle = session.Title,
+                user = User.Identity?.Name
+            });
             return View(session);
         }
 
@@ -86,6 +101,13 @@ namespace ConferenceHub.Controllers
             };
 
             await _dataService.AddRegistrationAsync(registration);
+            await _eventTelemetryService.TrackAsync("session.registration.created", new
+            {
+                sessionId = session.Id,
+                sessionTitle = session.Title,
+                attendeeEmail,
+                attendeeName
+            });
 
             TempData["Success"] = "Successfully registered for the session!";
 

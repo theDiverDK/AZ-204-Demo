@@ -67,3 +67,10 @@ kv_secret_azuread_client_secret_name="azuread-client-secret"
 kv_secret_cosmos_key_name="cosmos-key"
 kv_secret_slides_connection_string_name="slides-storage-connection-string"
 kv_secret_functions_key_name="functions-key"
+
+# LP9 Event Grid and Event Hub variables
+eventhub_namespace_name="ehns-conferencehub-${random}"
+eventhub_name="conferencehub-events"
+eventhub_auth_rule_name="conferencehub-send"
+eventgrid_subscription_name="egsub-slides-upload"
+kv_secret_eventhub_connection_string_name="eventhub-connection-string"

@@ -181,7 +181,8 @@ namespace ConferenceHub.Services
                 Room = doc.Room,
                 Description = doc.Description,
                 Capacity = doc.Capacity,
-                CurrentRegistrations = doc.CurrentRegistrations
+                CurrentRegistrations = doc.CurrentRegistrations,
+                SlideUrls = doc.SlideUrls ?? new List<string>()
             };
         }
 
@@ -198,7 +199,8 @@ namespace ConferenceHub.Services
                 Room = session.Room,
                 Description = session.Description,
                 Capacity = session.Capacity,
-                CurrentRegistrations = session.CurrentRegistrations
+                CurrentRegistrations = session.CurrentRegistrations,
+                SlideUrls = session.SlideUrls ?? new List<string>()
             };
         }
 
@@ -240,6 +242,7 @@ namespace ConferenceHub.Services
             public string Description { get; set; } = string.Empty;
             public int Capacity { get; set; }
             public int CurrentRegistrations { get; set; }
+            public List<string> SlideUrls { get; set; } = new();
         }
 
         private sealed class RegistrationDocument

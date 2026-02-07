@@ -30,6 +30,9 @@ builder.Services.AddSingleton<IDataService, CosmosDataService>();
 builder.Services.Configure<SlideStorageConfig>(
     builder.Configuration.GetSection("SlideStorage"));
 builder.Services.AddSingleton<ISlideStorageService, SlideStorageService>();
+builder.Services.Configure<EventHubConfig>(
+    builder.Configuration.GetSection("EventHub"));
+builder.Services.AddSingleton<IEventTelemetryService, EventTelemetryService>();
 
 // Configure Azure Functions settings
 builder.Services.Configure<AzureFunctionsConfig>(
