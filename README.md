@@ -4,8 +4,8 @@ This repository keeps `ConferenceHub/` as the shared web app source of truth on 
 Learning path differences are implemented under `LearningPath/<NN-Name>/` and selected by branch.
 
 ## Branch and Folder Convention
-- Branches: `lp/01-init` ... `lp/11-realtime`
-- Folders: `LearningPath/01-Init` ... `LearningPath/11-Realtime`
+- Branches: `lp/01-init`, `lp/02-functions`, `lp/03-storage`, `lp/04-cosmos`, `lp/05-container`, `lp/06-auth`, `lp/07-keyvault`, `lp/08-apim`, `lp/09-events`, `lp/10-messages`, `lp/11-appinsight`
+- Folders: `LearningPath/01-Init`, `LearningPath/02-Functions`, `LearningPath/03-Storage`, `LearningPath/04-Cosmos`, `LearningPath/05-Container`, `LearningPath/06-Auth`, `LearningPath/07-KeyVault`, `LearningPath/08-Apim`, `LearningPath/09-Events`, `LearningPath/10-Messages`, `LearningPath/11-AppInsight`
 
 ## Create Worktrees
 From repo root:
@@ -14,7 +14,7 @@ From repo root:
 ./tools/worktrees.sh
 ```
 
-This creates local worktrees under `./worktrees/lp01` ... `./worktrees/lp11`.
+This creates local worktrees under `./worktrees/01-init` ... `./worktrees/11-appinsight`.
 
 ## Run a Learning Path
 From a worktree (or any checkout on an `lp/*` branch):
