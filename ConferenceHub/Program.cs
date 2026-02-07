@@ -5,7 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<IDataService, DataService>();
+builder.Services.Configure<CosmosDbConfig>(
+    builder.Configuration.GetSection("CosmosDb"));
+builder.Services.AddSingleton<IDataService, CosmosDataService>();
 builder.Services.Configure<SlideStorageConfig>(
     builder.Configuration.GetSection("SlideStorage"));
 builder.Services.AddSingleton<ISlideStorageService, SlideStorageService>();

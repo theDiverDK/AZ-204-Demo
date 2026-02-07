@@ -10,7 +10,7 @@ app_service_plan_sku="P0V3"
 web_app_name="app-conferencehub-${random}"
 web_runtime="DOTNETCORE:9.0"
 
-# LP2 variables (already in use from previous learning path)
+# LP2 variables
 storage_account_name="stconferencehub${random}"
 function_app_name="func-conferencehub-${random}"
 function_runtime="dotnet-isolated"
@@ -23,7 +23,15 @@ functions_project_dir="LearningPath/02-Functions/ConferenceHub.Functions"
 functions_publish_dir="LearningPath/02-Functions/ConferenceHub.Functions/publish"
 functions_package_path="LearningPath/02-Functions/ConferenceHub.Functions.zip"
 
-# LP3 variables for session slide storage
+# LP3 variables
 slides_storage_account_name="stslideshub${random}"
 slides_container_name="session-slides"
 slides_storage_sku="Standard_LRS"
+
+# LP4 Cosmos variables
+cosmos_account_name="cosmos-conferencehub-${random}"
+cosmos_database_name="conferencehub"
+cosmos_sessions_container_name="sessions"
+cosmos_registrations_container_name="registrations"
+cosmos_sessions_partition_key="/id"
+cosmos_registrations_partition_key="/partitionKey"
