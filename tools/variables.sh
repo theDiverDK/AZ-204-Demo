@@ -35,3 +35,13 @@ cosmos_sessions_container_name="sessions"
 cosmos_registrations_container_name="registrations"
 cosmos_sessions_partition_key="/id"
 cosmos_registrations_partition_key="/partitionKey"
+
+# LP5 container variables
+container_app_service_plan_name="plan-conferencehub-container"
+container_app_service_plan_sku="P0V3"
+container_web_app_name="app-conferencehub-container-${random}"
+
+acr_name="acrconferencehub${random}"
+acr_sku="Basic"
+acr_image_repository="conferencehub"
+acr_image_tag="lp05"
