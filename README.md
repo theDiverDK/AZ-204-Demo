@@ -102,6 +102,9 @@ cd LearningPath/07-KeyVault
 cd ../..
 ```
 
+> Note: `lp/08-apim` is intentionally not included right now. For the current ConferenceHub architecture, an APIM step does not add meaningful value, so this section is omitted on purpose.
+
+
 8. `lp/09-events`
 This introduces event-driven behavior with Event Grid/Event Hub integrations.
 Events are emitted and processed when app actions occur (for example slide-related activity).
