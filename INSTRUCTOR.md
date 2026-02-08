@@ -23,6 +23,7 @@ git worktree list
 
 ## 2) Teaching Flow
 Run learning paths in order. Each path assumes previous paths are already deployed.
+Do not open pull requests between `lp/*` branches and `main`; those differences are intentional for the course progression.
 
 ## 3) Deploy + Demo per Learning Path
 
