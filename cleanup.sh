@@ -8,15 +8,19 @@ key_vault_name="kv-conferencehub-${random}"
 app_config_name="appcs-conferencehub-${random}"
 
 echo "Deleting resource group: $resource_group_name"
-az group delete \
-  --name "$resource_group_name" \
-  --yes \
-  --no-wait
+if az group show --name "$resource_group_name" >/dev/null 2>&1; then
+  az group delete \
+    --name "$resource_group_name" \
+    --yes \
+    --no-wait >/dev/null 2>&1 || true
 
-echo "Waiting for resource group deletion to finish..."
-az group wait \
-  --name "$resource_group_name" \
-  --deleted
+  echo "Waiting for resource group deletion to finish..."
+  az group wait \
+    --name "$resource_group_name" \
+    --deleted >/dev/null 2>&1 || true
+else
+  echo "Resource group '$resource_group_name' does not exist. Skipping delete."
+fi
 
 echo "Purging soft-deleted Key Vault (if present): $key_vault_name"
 for attempt in {1..30}; do
