@@ -1,14 +1,4 @@
-param(
-    [Parameter(ValueFromRemainingArguments = $true)]
-    [string[]]$ScriptArgs
-)
-
 $ErrorActionPreference = 'Stop'
-
-$bashScript = [System.IO.Path]::ChangeExtension($PSCommandPath, '.sh')
-if (-not (Test-Path -LiteralPath $bashScript)) {
-    throw "Missing paired shell script: $bashScript"
-}
-
-& bash $bashScript @ScriptArgs
-exit $LASTEXITCODE
+Set-StrictMode -Version Latest
+$PSNativeCommandUseErrorActionPreference = $true
+Write-Host "LearningPath/10-Containers/create.sh is a stub. Implement Azure CLI resource provisioning for LP10."
