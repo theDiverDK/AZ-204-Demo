@@ -19,11 +19,22 @@ az group wait \
   --deleted
 
 echo "Purging soft-deleted Key Vault (if present): $key_vault_name"
-if az keyvault list-deleted --query "[?name=='$key_vault_name'] | length(@)" -o tsv | grep -q '^1$'; then
-  az keyvault purge \
-    --name "$key_vault_name" \
-    --location "$location"
-fi
+for attempt in {1..30}; do
+  if az keyvault list-deleted --query "[?name=='$key_vault_name'] | length(@)" -o tsv | grep -q '^1$'; then
+    az keyvault purge \
+      --name "$key_vault_name" \
+      --location "$location"
+    break
+  fi
+
+  if [[ "$attempt" -eq 30 ]]; then
+    echo "Key Vault '$key_vault_name' was not found in soft-deleted state. Skipping purge."
+    break
+  fi
+
+  echo "Key Vault not visible in deleted list yet (attempt $attempt/30). Waiting 10s..."
+  sleep 10
+done
 
 echo "Purging soft-deleted App Configuration (if present): $app_config_name"
 if az appconfig list-deleted --query "[?name=='$app_config_name'] | length(@)" -o tsv | grep -q '^1$'; then

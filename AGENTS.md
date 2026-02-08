@@ -8,7 +8,6 @@ The application lives in `ConferenceHub/` and is an ASP.NET Core MVC app targeti
 - `ConferenceHub/Views`: Razor views by feature (`Home`, `Sessions`, `Organizer`, `Admin`).
 - `ConferenceHub/wwwroot`: static assets (CSS, JS, vendor libs).
 - `ConferenceHub/Data/sessions.json`: seed/session persistence file.
-- `ConferenceHub/devops`: Azure DevOps YAML pipelines and `main.bicep` infrastructure.
 
 ## Build, Test, and Development Commands
 Run commands from `ConferenceHub/` unless noted.
