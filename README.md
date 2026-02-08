@@ -12,6 +12,7 @@ This repository is organized as progressive learning paths. You run each path fr
 - `ConferenceHub/` is the shared app code.
 - Each learning path branch (`lp/*`) adds the next topic.
 - Each path has its own deployment script: `LearningPath/<NN-Name>/create.sh`.
+- Do not create pull requests between `lp/*` branches and `main`; branch differences are intentional for step-by-step learning.
 
 ## Student Workflow (Recommended)
 Clone once, then switch branches as you progress.
