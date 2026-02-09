@@ -2,3 +2,6 @@ worktrees/
 LearningPath/02-Functions/functions.zip
 *.zip
 resume
+**/bin/
+**/obj/
+*.dll
