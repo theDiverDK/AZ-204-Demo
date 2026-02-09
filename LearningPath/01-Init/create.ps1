@@ -12,13 +12,7 @@ if ([string]::IsNullOrEmpty($resource_group_name)) { $resource_group_name = 'rg-
 if ([string]::IsNullOrEmpty($app_service_plan_name)) { $app_service_plan_name = 'plan-conferencehub' }
 if ([string]::IsNullOrEmpty($app_service_plan_sku)) { $app_service_plan_sku = 'P0V3' }
 if ([string]::IsNullOrEmpty($web_app_name)) { $web_app_name = "app-conferencehub-$random" }
-if ([string]::IsNullOrEmpty($runtime)) {
-    if (-not [string]::IsNullOrEmpty($web_runtime)) {
-        $runtime = $web_runtime
-    } else {
-        $runtime = 'DOTNETCORE:9.0'
-    }
-}
+$runtime = $web_runtime
 
 $projectDir = Join-Path $repoRoot 'ConferenceHub'
 $publishDir = Join-Path $projectDir 'publish'
@@ -26,13 +20,19 @@ $packagePath = Join-Path $projectDir 'app.zip'
 
 az group create --name $resource_group_name --location $location
 
-az appservice plan show --name $app_service_plan_name --resource-group $resource_group_name *> $null
-if ($LASTEXITCODE -ne 0) {
+ $planExists = az appservice plan list `
+    --resource-group $resource_group_name `
+    --query "[?name=='$app_service_plan_name'] | length(@)" `
+    -o tsv
+if ($planExists -eq '0') {
     az appservice plan create --name $app_service_plan_name --resource-group $resource_group_name --location $location --is-linux --sku $app_service_plan_sku
 }
 
-az webapp show --name $web_app_name --resource-group $resource_group_name *> $null
-if ($LASTEXITCODE -ne 0) {
+$webAppExists = az webapp list `
+    --resource-group $resource_group_name `
+    --query "[?name=='$web_app_name'] | length(@)" `
+    -o tsv
+if ($webAppExists -eq '0') {
     az webapp create --name $web_app_name --resource-group $resource_group_name --plan $app_service_plan_name --runtime $runtime
 }
 
