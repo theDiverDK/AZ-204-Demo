@@ -7,3 +7,4 @@ LearningPath/02-Functions/ConferenceHub.Functions/publish/
 **/obj/
 *.dll
 resume
+.zip
