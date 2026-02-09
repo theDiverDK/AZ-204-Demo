@@ -13,6 +13,26 @@ $functions_zip_path = "$repo_root/$functions_package_path"
 $functions_base_url = "https://$function_app_name.azurewebsites.net"
 $functions_send_url = "$functions_base_url/api/SendConfirmation"
 $function_key = ""
+
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+function New-ZipFromDirectory {
+    param(
+        [Parameter(Mandatory = $true)][string]$SourceDirectory,
+        [Parameter(Mandatory = $true)][string]$DestinationZipPath
+    )
+
+    if (Test-Path -LiteralPath $DestinationZipPath) {
+        Remove-Item -LiteralPath $DestinationZipPath -Force
+    }
+
+    [System.IO.Compression.ZipFile]::CreateFromDirectory(
+        $SourceDirectory,
+        $DestinationZipPath,
+        [System.IO.Compression.CompressionLevel]::Optimal,
+        $false
+    )
+}
 # LP2 assumes LP1 already created RG/App Service Plan/Web App.
 # Only create new Function resources, then update/deploy existing apps.
 az storage account create  --name "$storage_account_name"  --resource-group "$resource_group_name"  --location "$location"  --sku Standard_LRS  --kind StorageV2  --min-tls-version TLS1_2
@@ -22,26 +42,12 @@ az webapp config set  --resource-group "$resource_group_name"  --name "$web_app_
 az functionapp config appsettings set  --resource-group "$resource_group_name"  --name "$function_app_name"  --settings  FUNCTIONS_WORKER_RUNTIME="$function_worker_runtime"  CONFIRMATION_SENDER_EMAIL="$confirmation_sender_email"
 # --------------------
 dotnet publish "$functions_project_path" -c Release -o "$functions_publish_path"
-if (Test-Path "$functions_zip_path") { Remove-Item -Force "$functions_zip_path" }
-Push-Location "$functions_publish_path"
-try {
-    if (Test-Path "$functions_zip_path") { Remove-Item -Force "$functions_zip_path" }
-    Compress-Archive -Path (Join-Path "$functions_publish_path" '*') -DestinationPath "$functions_zip_path" -Force
-} finally {
-    Pop-Location
-}
+New-ZipFromDirectory -SourceDirectory $functions_publish_path -DestinationZipPath $functions_zip_path
 az functionapp deployment source config-zip  --resource-group "$resource_group_name"  --name "$function_app_name"  --src "$functions_zip_path"
 $function_key = "$(az functionapp keys list  --resource-group `"$resource_group_name`"  --name `"$function_app_name`"  --query `"functionKeys.$function_key_name`"  -o tsv)"
 az webapp config appsettings set  --resource-group "$resource_group_name"  --name "$web_app_name"  --settings  ASPNETCORE_ENVIRONMENT=Production  WEBSITE_RUN_FROM_PACKAGE=1  API_MODE=functions  FUNCTIONS_BASE_URL="$functions_base_url"  AzureFunctions__SendConfirmationUrl="$functions_send_url"  AzureFunctions__FunctionKey="$function_key"
 # --------------------
 dotnet publish "$project_dir/ConferenceHub.csproj" -c Release -o "$web_publish_dir"
-if (Test-Path "$web_package_path") { Remove-Item -Force "$web_package_path" }
-Push-Location "$web_publish_dir"
-try {
-    if (Test-Path "$web_package_path") { Remove-Item -Force "$web_package_path" }
-    Compress-Archive -Path (Join-Path "$web_publish_dir" '*') -DestinationPath "$web_package_path" -Force
-} finally {
-    Pop-Location
-}
+New-ZipFromDirectory -SourceDirectory $web_publish_dir -DestinationZipPath $web_package_path
 az webapp deploy  --resource-group "$resource_group_name"  --name "$web_app_name"  --src-path "$web_package_path"  --type zip
 az webapp browse  --resource-group "$resource_group_name"  --name "$web_app_name"
