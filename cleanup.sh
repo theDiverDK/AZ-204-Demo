@@ -14,6 +14,7 @@ if az group show --name "$resource_group_name" >/dev/null 2>&1; then
     --yes \
     --no-wait >/dev/null 2>&1 || true
 
+  echo "Note: deleting Cosmos DB can take more than 15 minutes. Please wait until cleanup finishes."
   echo "Waiting for resource group deletion to finish..."
   az group wait \
     --name "$resource_group_name" \

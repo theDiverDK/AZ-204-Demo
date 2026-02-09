@@ -12,6 +12,7 @@ Write-Host "Deleting resource group: $resource_group_name"
 az group show --name $resource_group_name *> $null
 if ($LASTEXITCODE -eq 0) {
     az group delete --name $resource_group_name --yes --no-wait *> $null
+    Write-Host 'Note: deleting Cosmos DB can take more than 15 minutes. Please wait until cleanup finishes.'
     Write-Host 'Waiting for resource group deletion to finish...'
     az group wait --name $resource_group_name --deleted *> $null
 } else {
