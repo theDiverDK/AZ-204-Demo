@@ -1,5 +1,9 @@
 worktrees/
 *.zip
+resume
+**/bin/
+**/obj/
+*.dll
 LearningPath/02-Functions/ConferenceHub.Functions/bin/
 LearningPath/02-Functions/ConferenceHub.Functions/obj/
 LearningPath/02-Functions/ConferenceHub.Functions/publish/
