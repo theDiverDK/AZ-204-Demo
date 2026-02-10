@@ -140,6 +140,8 @@ if [[ -n "$container_app_exists" ]]; then
     --name "$container_web_app_name"
 fi
 
+if [[ "-e" != "1" ]]; then
 az webapp browse \
   --resource-group "$resource_group_name" \
   --name "$web_app_name"
+fi
