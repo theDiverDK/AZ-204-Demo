@@ -208,7 +208,7 @@ az webapp restart \
   --resource-group "$resource_group_name" \
   --name "$web_app_name"
 
-if [[ "-e" != "1" ]]; then
+if [[ "${NO_BROWSE:-0}" != "1" ]]; then
 az webapp browse \
   --resource-group "$resource_group_name" \
   --name "$web_app_name"
