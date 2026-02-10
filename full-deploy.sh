@@ -24,7 +24,7 @@ run_lp() {
   clean_artifacts
 
   cd "$folder"
-  ./create.sh
+  NO_BROWSE=1 ./create.sh
   cd "$script_dir"
 }
 
@@ -43,6 +43,11 @@ run_lp "lp/07-keyvault" "LearningPath/07-KeyVault"
 run_lp "lp/09-events" "LearningPath/09-Events"
 run_lp "lp/10-messages" "LearningPath/10-Messages"
 run_lp "lp/11-appinsight" "LearningPath/11-AppInsight"
+
+source "$script_dir/tools/variables.sh"
+az webapp browse \
+  --resource-group "$resource_group_name" \
+  --name "$web_app_name"
 
 echo ""
 echo "All learning paths deployed successfully."
