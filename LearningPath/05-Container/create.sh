@@ -126,7 +126,7 @@ az webapp config appsettings set \
   CosmosDb__SessionsContainerName="$cosmos_sessions_container_name" \
   CosmosDb__RegistrationsContainerName="$cosmos_registrations_container_name"
 
-if [[ "-e" != "1" ]]; then
+if [[ "${NO_BROWSE:-0}" != "1" ]]; then
 az webapp browse \
   --resource-group "$resource_group_name" \
   --name "$container_web_app_name"
