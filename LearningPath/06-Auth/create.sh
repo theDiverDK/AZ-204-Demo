@@ -159,9 +159,11 @@ az webapp deploy \
   --src-path "$package_path" \
   --type zip
 
+if [[ "-e" != "1" ]]; then
 az webapp browse \
   --resource-group "$resource_group_name" \
   --name "$web_app_name"
+fi
 
 echo "Created demo users:"
 echo "- ${user_upn} (role: ${entra_user_role_value})"
